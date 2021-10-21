@@ -268,4 +268,40 @@ public class LoginPageTest extends BaseTest {
 
         Assert.assertTrue(isPresent);
     }
+
+    @Test
+    public void testLongLogin() {
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LONG_STRING);
+        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
+        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+
+        String result = getDriver().switchTo().alert().getText();
+
+        Assert.assertEquals(result, "Неверные данные для авторизации");
+    }
+
+    @Test
+    public void testLongPassword() {
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
+        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(LONG_STRING);
+        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+
+        String result = getDriver().switchTo().alert().getText();
+
+        Assert.assertEquals(result, "Логин или пароль слишком длинные");
+    }
+
+    @Test
+    public void testLongLoginAndPassword() {
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LONG_STRING);
+        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(LONG_STRING);
+        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+
+        String result = getDriver().switchTo().alert().getText();
+
+        Assert.assertEquals(result, "Логин или пароль слишком длинные");
+    }
 }
