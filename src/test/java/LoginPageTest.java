@@ -256,4 +256,14 @@ public class LoginPageTest extends BaseTest {
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
+
+    @Test
+    public void testShowPassword() {
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
+        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
+        getDriver().findElement(By.id("show_password")).click();
+
+        Boolean isPresent = getDriver().findElements(By.xpath("//input[@name = 'password' and @type = 'text']")).size() > 0;
+    }
 }
