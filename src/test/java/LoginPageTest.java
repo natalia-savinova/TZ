@@ -90,6 +90,24 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
+    public void testOpenLinkInNewWindow() {
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
+        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
+        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        String url2 = getDriver().getCurrentUrl();
+
+        ((JavascriptExecutor)getDriver()).executeScript("window.open()");
+        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(tabs.get(1));
+        getDriver().get(url2);
+
+        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+
+        Assert.assertEquals(result.getText(), USER_NAME);
+    }
+
+    @Test
     public void testForgerPassword() {
         getDriver().get(URL);
         getDriver().findElement(By.xpath("//a[@class = 'mira-default-login-page-link']/div")).click();
@@ -335,23 +353,5 @@ public class LoginPageTest extends BaseTest {
         String result = getDriver().switchTo().alert().getText();
 
         Assert.assertEquals(result, "Логин или пароль слишком длинные");
-    }
-
-    @Test
-    public void testOpenLinkInNewWindow() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
-        String url2 = getDriver().getCurrentUrl();
-
-        ((JavascriptExecutor)getDriver()).executeScript("window.open()");
-        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(tabs.get(1));
-        getDriver().get(url2);
-
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
     }
 }
