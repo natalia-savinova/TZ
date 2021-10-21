@@ -55,7 +55,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testButton() {
+    public void testButtonText() {
         getDriver().get(URL);
 
         WebElement result = getDriver().findElement(By.id("button_submit_login_form"));
