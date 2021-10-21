@@ -256,9 +256,4 @@ public class LoginPageTest extends BaseTest {
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
-
-
-
-
-
 }
