@@ -264,6 +264,8 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
         getDriver().findElement(By.id("show_password")).click();
 
-        Boolean isPresent = getDriver().findElements(By.xpath("//input[@name = 'password' and @type = 'text']")).size() > 0;
+        boolean isPresent = getDriver().findElements(By.xpath("//input[@name = 'password' and @type = 'text']")).size() > 0;
+
+        Assert.assertTrue(isPresent);
     }
 }
