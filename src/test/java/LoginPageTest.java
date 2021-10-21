@@ -35,6 +35,35 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
+    public void testPlaceholderLogin() {
+        getDriver().get(URL);
+
+        boolean isPresent = getDriver().findElements(By.
+                xpath("//input[@name = 'user' and @placeholder = 'Введите ваш логин']")).size() > 0;
+
+        Assert.assertTrue(isPresent);
+    }
+
+    @Test
+    public void testPlaceholderPassword() {
+        getDriver().get(URL);
+
+        boolean isPresent = getDriver().findElements(By.
+                xpath("//input[@name = 'password' and @placeholder = 'Введите ваш пароль']")).size() > 0;
+
+        Assert.assertTrue(isPresent);
+    }
+
+    @Test
+    public void testButton() {
+        getDriver().get(URL);
+
+        WebElement result = getDriver().findElement(By.id("button_submit_login_form"));
+
+        Assert.assertEquals(result.getText(), "Войти");
+    }
+
+    @Test
     public void testAuthorizationButtonPositive() {
         getDriver().get(URL);
         getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
