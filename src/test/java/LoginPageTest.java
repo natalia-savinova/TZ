@@ -73,7 +73,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -84,9 +84,9 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD + "\n");
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title = 'Новости']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
-        Assert.assertEquals(result.getText(), "Новости");
+        Assert.assertEquals(result.getText(), USER_NAME);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().switchTo().window(tabs.get(1));
         getDriver().get(url2);
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -206,7 +206,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -242,7 +242,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -254,7 +254,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(" " + PASSWORD);
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -266,7 +266,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(" " + PASSWORD);
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -278,7 +278,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -290,7 +290,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD + " ");
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
@@ -302,7 +302,7 @@ public class LoginPageTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD + " ");
         getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@title= '" + USER_NAME + "']"));
+        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
 
         Assert.assertEquals(result.getText(), USER_NAME);
     }
