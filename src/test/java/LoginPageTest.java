@@ -1,7 +1,8 @@
-import Base.BaseTest;
+import base.BaseTest;
+import model.LoginPage;
+import model.PasswordRecoveryPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,347 +12,286 @@ public class LoginPageTest extends BaseTest {
 
     @Test
     public void testLogoLink() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//div[@class = 'head']/a")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.logoClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'info-title']/div"));
-
-        Assert.assertEquals(result.getText(), "Вход в систему");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'info-title']/div")).getText(), "Вход в систему");
     }
 
     @Test
     public void testRightSideLoginPage() {
-        getDriver().get(URL);
+        LoginPage loginPage = new LoginPage(getDriver());
 
-        WebElement result1 = getDriver().findElement(By.
-                xpath("//div[@class = 'mira-page-login-right-side-content-title']"));
-        WebElement result2 = getDriver().findElement(By.
-                xpath("//div[@class = 'mira-page-login-right-side-content-user-info']"));
-        WebElement result3 = getDriver().findElement(By.
-                xpath("//li[@class = 'mira-page-login-right-side-content-support-info-item']/p/span"));
-
-        Assert.assertEquals(result1.getText(), "Добро пожаловать\n" +
+        Assert.assertEquals(loginPage.rightSideTitleText(), "Добро пожаловать\n" +
                 "в систему дистанционного обучения\n" +
                 "Mirapolis LMS!");
-        Assert.assertEquals(result2.getText(), "Обучайте, контролируйте результаты, мотивируйте сотрудников, используя лучшие практики лидеров рынка.");
-        Assert.assertEquals(result3.getText(), "По всем вопросам обращайтесь к вашему менеджеру");
+        Assert.assertEquals(loginPage.rightSideInfoText(), "Обучайте, контролируйте результаты, мотивируйте сотрудников, используя лучшие практики лидеров рынка.");
+        Assert.assertEquals(loginPage.rightSideSupportInfoText(), "По всем вопросам обращайтесь к вашему менеджеру");
     }
+
 
     @Test
     public void testPlaceholderLogin() {
-        getDriver().get(URL);
+        LoginPage loginPage = new LoginPage(getDriver());
 
-        boolean isPresent = getDriver().findElements(By.
-                xpath("//input[@name = 'user' and @placeholder = 'Введите ваш логин']")).size() > 0;
-
-        Assert.assertTrue(isPresent);
+        Assert.assertTrue(loginPage.loginPlaceholderIsPresent());
     }
 
     @Test
     public void testPlaceholderPassword() {
-        getDriver().get(URL);
+        LoginPage loginPage = new LoginPage(getDriver());
 
-        boolean isPresent = getDriver().findElements(By.
-                xpath("//input[@name = 'password' and @placeholder = 'Введите ваш пароль']")).size() > 0;
-
-        Assert.assertTrue(isPresent);
+        Assert.assertTrue(loginPage.passwordPlaceholderIsPresent());
     }
 
     @Test
     public void testButtonText() {
-        getDriver().get(URL);
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.submitButtonText();
 
-        WebElement result = getDriver().findElement(By.id("button_submit_login_form"));
-
-        Assert.assertEquals(result.getText(), "Войти");
+        Assert.assertEquals(loginPage.submitButtonText(), "Войти");
     }
 
     @Test
     public void testAuthorizationButtonPositive() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
+        //return?
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testAuthorizationEnterPositive() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD + "\n");
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(PASSWORD + "\n");
+        //return?
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testOpenLinkInNewWindow() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
-        String url2 = getDriver().getCurrentUrl();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
+
+        String currentUrl = getDriver().getCurrentUrl();
 
         ((JavascriptExecutor)getDriver()).executeScript("window.open()");
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(1));
-        getDriver().get(url2);
+        getDriver().get(currentUrl);
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testForgerPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//a[@class = 'mira-default-login-page-link']/div")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.gotoPasswordRecoveryPage();
+        PasswordRecoveryPage passwordRecoveryPage = new PasswordRecoveryPage(getDriver());
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'info-title']"));
-
-        Assert.assertEquals(result.getText(), "Восстановление пароля");
+        Assert.assertEquals(passwordRecoveryPage.infoTitleText(), "Восстановление пароля");
     }
 
     @Test
     public void testSwapLoginAndPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(PASSWORD);
+        loginPage.fillPassword(LOGIN);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testWrongLogin() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(WRONG_LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(WRONG_LOGIN);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testWrongPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(WRONG_PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(WRONG_PASSWORD);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testWrongLoginAndPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(WRONG_LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(WRONG_PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(WRONG_LOGIN);
+        loginPage.fillPassword(WRONG_PASSWORD);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testOnlyLogin() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации.");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации.");
     }
 
     @Test
     public void testOnlyPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации.");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации.");
     }
 
     @Test
     public void testNoLoginNoPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(WRONG_LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(WRONG_PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации.");
     }
 
     @Test
     public void testCapitalizationLogin() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN_TO_UPPERCASE);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN_TO_UPPERCASE);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testCapitalizationPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD_TO_LOWERCASE);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(PASSWORD_TO_LOWERCASE);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testCapitalizationLoginAndPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN_TO_UPPERCASE);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD_TO_LOWERCASE);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN_TO_UPPERCASE);
+        loginPage.fillPassword(PASSWORD_TO_LOWERCASE);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testSpaceBeforeLogin() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(" " + LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(" " + LOGIN);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceBeforePassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(" " + PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(" " + PASSWORD);
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceBeforeLoginAndPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(" " + LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(" " + PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(" " + LOGIN);
+        loginPage.fillPassword(" " + PASSWORD);
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceAfterLogin() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN + " ");
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN  + " ");
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceAfterPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD + " ");
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(PASSWORD  + " ");
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceAfterLoginAndPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN + " ");
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD + " ");
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN  + " ");
+        loginPage.fillPassword(PASSWORD  + " ");
+        loginPage.submitButtonClick();
 
-        WebElement result = getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']"));
-
-        Assert.assertEquals(result.getText(), USER_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testShowPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.id("show_password")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.showPassword();
 
-        boolean isPresent = getDriver().findElements(By.xpath("//input[@name = 'password' and @type = 'text']")).size() > 0;
-
-        Assert.assertTrue(isPresent);
+        Assert.assertTrue(getDriver().findElements(By.xpath("//input[@name = 'password' and @type = 'text']")).size() > 0);
     }
 
     @Test
     public void testLongLogin() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LONG_STRING);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(PASSWORD);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LONG_STRING);
+        loginPage.fillPassword(PASSWORD);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Неверные данные для авторизации");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testLongPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LOGIN);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(LONG_STRING);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LOGIN);
+        loginPage.fillPassword(LONG_STRING);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Логин или пароль слишком длинные");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Логин или пароль слишком длинные");
     }
 
     @Test
     public void testLongLoginAndPassword() {
-        getDriver().get(URL);
-        getDriver().findElement(By.xpath("//input[@name = 'user']")).sendKeys(LONG_STRING);
-        getDriver().findElement(By.xpath("//input[@name = 'password']")).sendKeys(LONG_STRING);
-        getDriver().findElement(By.xpath("//button[@id = 'button_submit_login_form']")).click();
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.fillLogin(LONG_STRING);
+        loginPage.fillPassword(LONG_STRING);
+        loginPage.submitButtonClick();
 
-        String result = getDriver().switchTo().alert().getText();
-
-        Assert.assertEquals(result, "Логин или пароль слишком длинные");
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "Логин или пароль слишком длинные");
     }
 }

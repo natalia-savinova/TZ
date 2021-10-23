@@ -1,22 +1,29 @@
-package Base;
+package base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest extends TestData{
 
-    private static WebDriver driver;
+    private WebDriver driver;
+
+    @BeforeClass
+    public void beforeClass() {
+        WebDriverManager.chromedriver().setup();
+    }
 
     @BeforeMethod
-    public void before() {
+    public void beforeMethod() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
+        driver.get(URL);
     }
 
     @AfterMethod
@@ -24,7 +31,7 @@ public class BaseTest extends TestData{
         driver.quit();
     }
 
-    public static WebDriver getDriver() {
+    protected WebDriver getDriver() {
         return driver;
     }
 }
