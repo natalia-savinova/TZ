@@ -12,8 +12,8 @@ public class LoginPageTest extends BaseTest {
 
     @Test
     public void testLogoLink() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.logoClick();
+        new LoginPage(getDriver())
+                .logoClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'info-title']/div")).getText(), "Вход в систему");
     }
@@ -47,38 +47,35 @@ public class LoginPageTest extends BaseTest {
     @Test
     public void testButtonText() {
         LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.submitButtonText();
 
         Assert.assertEquals(loginPage.submitButtonText(), "Войти");
     }
 
     @Test
     public void testAuthorizationButtonPositive() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
-        //return?
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testAuthorizationEnterPositive() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(PASSWORD + "\n");
-        //return?
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(PASSWORD + "\n");
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testOpenLinkInNewWindow() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         String currentUrl = getDriver().getCurrentUrl();
 
@@ -101,196 +98,196 @@ public class LoginPageTest extends BaseTest {
 
     @Test
     public void testSwapLoginAndPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(PASSWORD);
-        loginPage.fillPassword(LOGIN);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(PASSWORD)
+                .fillPassword(LOGIN)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testWrongLogin() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(WRONG_LOGIN);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(WRONG_LOGIN)
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testWrongPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(WRONG_PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(WRONG_PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testWrongLoginAndPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(WRONG_LOGIN);
-        loginPage.fillPassword(WRONG_PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(WRONG_LOGIN)
+                .fillPassword(WRONG_PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testOnlyLogin() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации.");
     }
 
     @Test
     public void testOnlyPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации.");
     }
 
     @Test
     public void testNoLoginNoPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации.");
     }
 
     @Test
     public void testCapitalizationLogin() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN_TO_UPPERCASE);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN_TO_UPPERCASE)
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testCapitalizationPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(PASSWORD_TO_LOWERCASE);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(PASSWORD_TO_LOWERCASE)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testCapitalizationLoginAndPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN_TO_UPPERCASE);
-        loginPage.fillPassword(PASSWORD_TO_LOWERCASE);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN_TO_UPPERCASE)
+                .fillPassword(PASSWORD_TO_LOWERCASE)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testSpaceBeforeLogin() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(" " + LOGIN);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(" " + LOGIN)
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceBeforePassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(" " + PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(" " + PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceBeforeLoginAndPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(" " + LOGIN);
-        loginPage.fillPassword(" " + PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(" " + LOGIN)
+                .fillPassword(" " + PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceAfterLogin() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN  + " ");
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN  + " ")
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceAfterPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(PASSWORD  + " ");
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(PASSWORD  + " ")
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testSpaceAfterLoginAndPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN  + " ");
-        loginPage.fillPassword(PASSWORD  + " ");
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN  + " ")
+                .fillPassword(PASSWORD  + " ")
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'avatar-full-name']")).getText(), USER_NAME);
     }
 
     @Test
     public void testShowPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.showPassword();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(PASSWORD)
+                .showPassword();
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//input[@name = 'password' and @type = 'text']")).size() > 0);
     }
 
     @Test
     public void testLongLogin() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LONG_STRING);
-        loginPage.fillPassword(PASSWORD);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LONG_STRING)
+                .fillPassword(PASSWORD)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Неверные данные для авторизации");
     }
 
     @Test
     public void testLongPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LOGIN);
-        loginPage.fillPassword(LONG_STRING);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LOGIN)
+                .fillPassword(LONG_STRING)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Логин или пароль слишком длинные");
     }
 
     @Test
     public void testLongLoginAndPassword() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.fillLogin(LONG_STRING);
-        loginPage.fillPassword(LONG_STRING);
-        loginPage.submitButtonClick();
+        new LoginPage(getDriver())
+                .fillLogin(LONG_STRING)
+                .fillPassword(LONG_STRING)
+                .submitButtonClick();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Логин или пароль слишком длинные");
     }

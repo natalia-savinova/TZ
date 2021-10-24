@@ -49,16 +49,19 @@ public class LoginPage extends BaseModel {
         logo.click();
     }
 
-    public void fillLogin(String value) {
+    public LoginPage fillLogin(String value) {
         login.sendKeys(value);
+        return this;
     }
 
-    public void fillPassword(String value) {
+    public LoginPage fillPassword(String value) {
         password.sendKeys(value);
+        return this;
     }
 
-    public void submitButtonClick() {
+    public PersonalAreaPage submitButtonClick() {
         submitButton.click();
+        return new PersonalAreaPage(getDriver());
     }
 
     public boolean loginPlaceholderIsPresent() {
@@ -88,7 +91,6 @@ public class LoginPage extends BaseModel {
     public String rightSideSupportInfoText() {
         return rightSideSupportInfo.getText();
     }
-
 
     public PasswordRecoveryPage gotoPasswordRecoveryPage() {
         forgetPassword.click();
