@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class LoginPageTest extends BaseTest {
 
     @Test
-    public void testLogoLink() {
+    public void goLogoLink() {
         new LoginPage(getDriver())
                 .logoClick();
 
@@ -19,7 +19,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testRightSideLoginPage() {
+    public void checkRightSideLoginPage() {
         LoginPage loginPage = new LoginPage(getDriver());
 
         Assert.assertEquals(loginPage.rightSideTitleText(), "Добро пожаловать\n" +
@@ -31,28 +31,28 @@ public class LoginPageTest extends BaseTest {
 
 
     @Test
-    public void testPlaceholderLogin() {
+    public void checkPlaceholderLogin() {
         LoginPage loginPage = new LoginPage(getDriver());
 
         Assert.assertTrue(loginPage.loginPlaceholderIsPresent());
     }
 
     @Test
-    public void testPlaceholderPassword() {
+    public void checkPlaceholderPassword() {
         LoginPage loginPage = new LoginPage(getDriver());
 
         Assert.assertTrue(loginPage.passwordPlaceholderIsPresent());
     }
 
     @Test
-    public void testButtonText() {
+    public void checkButtonText() {
         LoginPage loginPage = new LoginPage(getDriver());
 
         Assert.assertEquals(loginPage.submitButtonText(), "Войти");
     }
 
     @Test
-    public void testAuthorizationButtonPositive() {
+    public void authorizationButtonPositive() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(PASSWORD)
@@ -62,7 +62,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testAuthorizationEnterPositive() {
+    public void authorizationEnterPositive() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(PASSWORD + "\n");
@@ -71,7 +71,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testOpenLinkInNewWindow() {
+    public void openLinkInNewWindow() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(PASSWORD)
@@ -88,7 +88,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testForgerPassword() {
+    public void goForgerPassword() {
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.gotoPasswordRecoveryPage();
         PasswordRecoveryPage passwordRecoveryPage = new PasswordRecoveryPage(getDriver());
@@ -97,7 +97,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSwapLoginAndPassword() {
+    public void swapLoginAndPassword() {
         new LoginPage(getDriver())
                 .fillLogin(PASSWORD)
                 .fillPassword(LOGIN)
@@ -107,7 +107,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testWrongLogin() {
+    public void enterWrongLogin() {
         new LoginPage(getDriver())
                 .fillLogin(WRONG_LOGIN)
                 .fillPassword(PASSWORD)
@@ -117,7 +117,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testWrongPassword() {
+    public void enterWrongPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(WRONG_PASSWORD)
@@ -127,7 +127,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testWrongLoginAndPassword() {
+    public void enterWrongLoginAndPassword() {
         new LoginPage(getDriver())
                 .fillLogin(WRONG_LOGIN)
                 .fillPassword(WRONG_PASSWORD)
@@ -137,7 +137,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testOnlyLogin() {
+    public void enterOnlyLogin() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .submitButtonClick();
@@ -146,7 +146,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testOnlyPassword() {
+    public void enterOnlyPassword() {
         new LoginPage(getDriver())
                 .fillPassword(PASSWORD)
                 .submitButtonClick();
@@ -155,7 +155,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testNoLoginNoPassword() {
+    public void enterNoLoginNoPassword() {
         new LoginPage(getDriver())
                 .submitButtonClick();
 
@@ -163,7 +163,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testCapitalizationLogin() {
+    public void enterCapitalizationLogin() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN_TO_UPPERCASE)
                 .fillPassword(PASSWORD)
@@ -173,7 +173,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testCapitalizationPassword() {
+    public void enterCapitalizationPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(PASSWORD_TO_LOWERCASE)
@@ -183,7 +183,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testCapitalizationLoginAndPassword() {
+    public void enterCapitalizationLoginAndPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN_TO_UPPERCASE)
                 .fillPassword(PASSWORD_TO_LOWERCASE)
@@ -193,7 +193,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSpaceBeforeLogin() {
+    public void addSpaceBeforeLogin() {
         new LoginPage(getDriver())
                 .fillLogin(" " + LOGIN)
                 .fillPassword(PASSWORD)
@@ -203,7 +203,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSpaceBeforePassword() {
+    public void addSpaceBeforePassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(" " + PASSWORD)
@@ -213,7 +213,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSpaceBeforeLoginAndPassword() {
+    public void addSpaceBeforeLoginAndPassword() {
         new LoginPage(getDriver())
                 .fillLogin(" " + LOGIN)
                 .fillPassword(" " + PASSWORD)
@@ -223,7 +223,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSpaceAfterLogin() {
+    public void addSpaceAfterLogin() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN  + " ")
                 .fillPassword(PASSWORD)
@@ -233,7 +233,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSpaceAfterPassword() {
+    public void addSpaceAfterPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(PASSWORD  + " ")
@@ -243,7 +243,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testSpaceAfterLoginAndPassword() {
+    public void addSpaceAfterLoginAndPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN  + " ")
                 .fillPassword(PASSWORD  + " ")
@@ -253,7 +253,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testShowPassword() {
+    public void clickShowPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(PASSWORD)
@@ -263,7 +263,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testLongLogin() {
+    public void enterLongLogin() {
         new LoginPage(getDriver())
                 .fillLogin(LONG_STRING)
                 .fillPassword(PASSWORD)
@@ -273,7 +273,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testLongPassword() {
+    public void enterLongPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LOGIN)
                 .fillPassword(LONG_STRING)
@@ -283,7 +283,7 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void testLongLoginAndPassword() {
+    public void enterLongLoginAndPassword() {
         new LoginPage(getDriver())
                 .fillLogin(LONG_STRING)
                 .fillPassword(LONG_STRING)
